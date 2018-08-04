@@ -29,7 +29,7 @@ public class Product {
 	
 	private Double price;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.REMOVE)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 

@@ -4,6 +4,8 @@ import java.util.Currency;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,7 @@ public class ProductService {
 		return product;
 	}
 	
+	@Transactional
 	public Product updateProduct(ProductRequest prod) throws Exception 
 	{
 		Product product = productRepository.findByName(prod.getName());
@@ -81,6 +84,7 @@ public class ProductService {
 		return product;
 	}
 	
+	@Transactional
 	public void deleteByName(String productName) throws Exception
 	{
 		Product product = productRepository.findByName(productName);

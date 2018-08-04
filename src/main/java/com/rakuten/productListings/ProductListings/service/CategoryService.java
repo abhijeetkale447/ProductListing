@@ -36,14 +36,14 @@ public class CategoryService {
 		Set<Category> childSet = new LinkedHashSet<Category>();
 		List<Category> childList = new LinkedList<Category>();
 		Category category = getCategoryByName(name);
-		if(category == null)
-		{
+		if (category == null) {
 			throw new Exception("Bad Request: category doesn't exists.");
 		}
 		populateChildCategory(childSet, category).stream().forEach(e -> childList.add(e));
 		return childList;
 	}
 
+	@Transactional
 	public Category updateCategory(CategoryRequest categoryRequest) throws Exception {
 
 		Category category;
@@ -76,7 +76,7 @@ public class CategoryService {
 			throw new Exception("Bad Request: child categories exists remap the child categories first.");
 		}
 
-		List<Product> childProductList = productRepository.findByCategoryName(categoryName);
+		List<Product> childProductList = productRepository.findByCategoryName(category.getCategoryId());
 		if (!childProductList.isEmpty()) {
 			throw new Exception("Bad Request: products exists under this category reassign these products first.");
 		}
@@ -84,16 +84,16 @@ public class CategoryService {
 		categoryRepository.delete(category);
 	}
 
-
-
 	private Category populateAndValidateCategory(Category category, CategoryRequest categoryRequest) throws Exception {
 		category.setName(categoryRequest.getName());
 		category.setDescription(categoryRequest.getDescription());
-		Category parentCatgory = getCategoryByName(categoryRequest.getParentCategory());
-		if (parentCatgory == null) {
-			throw new Exception("Bad Request: Parent Category doesn't exist.");
+		if (categoryRequest.getParentCategory() != null && !categoryRequest.getParentCategory().isEmpty()) {
+			Category parentCatgory = getCategoryByName(categoryRequest.getParentCategory());
+			if (parentCatgory == null) {
+				throw new Exception("Bad Request: Parent Category doesn't exist.");
+			}
+			category.setParentCategory(parentCatgory);
 		}
-		category.setParentCategory(parentCatgory);
 		return category;
 	}
 
