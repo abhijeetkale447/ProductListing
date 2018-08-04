@@ -1,6 +1,8 @@
 package com.rakuten.productListings.ProductListings.service;
 
 import java.util.Currency;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,5 +89,10 @@ public class ProductService {
 			throw new Exception("Bad Request: no product exists with this name");
 		}
 		productRepository.delete(product);
+	}
+	
+	public List<Product> getProductsUnderCategory(List<Category> categoryList) {
+		return productRepository
+				.getChildProducts(categoryList.stream().map(Category::getCategoryId).collect(Collectors.toList()));
 	}
 }

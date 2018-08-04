@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rakuten.productListings.ProductListings.model.Category;
 import com.rakuten.productListings.ProductListings.model.request.CategoryRequest;
+import com.rakuten.productListings.ProductListings.model.response.Response;
+import com.rakuten.productListings.ProductListings.model.response.ResponseFactory;
 import com.rakuten.productListings.ProductListings.service.CategoryService;
 import com.rakuten.productListings.ProductListings.service.CurrencyConversionService;
 
@@ -25,56 +27,55 @@ public class CategoryController {
 
 	@Autowired
 	CategoryService categoryService;
-	
+
 	@Autowired
 	CurrencyConversionService currencyConversionService;
 
 	@RequestMapping(value = "/category/{categoryName}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Category> getcategoryByName(@PathVariable("categoryName") String categoryName) {
+	public ResponseEntity<Response> getcategoryByName(@PathVariable("categoryName") String categoryName) {
 		Category category = categoryService.getCategoryByName(categoryName);
-		return new ResponseEntity<Category>(category, HttpStatus.OK);
+		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(category), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/category")
 	@ResponseBody
-	public ResponseEntity<String> addNewCategory(@RequestBody CategoryRequest categoryRequest) {
+	public ResponseEntity<Response> addNewCategory(@RequestBody CategoryRequest categoryRequest) {
 		try {
 			categoryService.saveCategory(categoryRequest);
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Response>(ResponseFactory.createErrorResponse(e), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/category")
 	@ResponseBody
-	public ResponseEntity<String> updateCategory(@RequestBody CategoryRequest categoryRequest) {
+	public ResponseEntity<Response> updateCategory(@RequestBody CategoryRequest categoryRequest) {
 		try {
 			categoryService.updateCategory(categoryRequest);
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Response>(ResponseFactory.createErrorResponse(e), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.CREATED);
+		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(), HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/category/{categoryName}")
 	@ResponseBody
-	public ResponseEntity<String> deleteCategory(@PathVariable("categoryName") String categoryName) {
+	public ResponseEntity<Response> deleteCategory(@PathVariable("categoryName") String categoryName) {
 		try {
 			categoryService.deleteByName(categoryName);
 		} catch (Exception e) {
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Response>(ResponseFactory.createErrorResponse(e), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>(HttpStatus.OK);
+		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(), HttpStatus.OK);
 	}
 
-	
-	
 	@RequestMapping(value = "/category/allChild/{categoryName}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<List> getAllChildCategory(@PathVariable("categoryName") String categoryName) throws Exception{
+	public ResponseEntity<Response> getAllChildCategory(@PathVariable("categoryName") String categoryName)
+			throws Exception {
 		List<Category> childList = categoryService.getAllChildCategory(categoryName);
-		return new ResponseEntity<List>(childList, HttpStatus.OK);
+		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(childList), HttpStatus.OK);
 	}
 }
