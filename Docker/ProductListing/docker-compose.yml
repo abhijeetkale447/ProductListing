@@ -1,0 +1,9 @@
+version: '2'
+services:
+  postgres:
+    build: 
+        context: .
+    container_name: prodlisting_container
+    image: pprodlisting_image
+    network_mode: "host"
+    

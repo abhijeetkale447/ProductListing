@@ -1,0 +1,71 @@
+CREATE SCHEMA raku11;
+
+CREATE SEQUENCE raku11.PRODUCT_ID_SEQUENCE
+  start 1
+  increment 1;
+  
+CREATE SEQUENCE raku11.CATEGORY_ID_SEQUENCE
+  start 1
+  increment 1;
+
+
+CREATE TABLE raku11.CATEGORY(
+	category_id bigint,
+	name text,
+	description text,
+	parent_category_id bigint,
+	CONSTRAINT pk_category PRIMARY KEY (category_id),
+	CONSTRAINT fk_category_parent_category FOREIGN KEY (parent_category_id)
+        REFERENCES raku11.CATEGORY (category_id) 
+);
+
+CREATE TABLE raku11.PRODUCT(
+	product_id bigint,
+	name text,
+	description text,
+	price decimal(12,2),
+	category_id bigint,
+	CONSTRAINT pk_product PRIMARY KEY (product_id),
+	CONSTRAINT fk_product_category FOREIGN KEY (category_id)
+        REFERENCES raku11.CATEGORY (category_id) 
+);
+
+
+
+CREATE TABLE raku11.user_details
+(
+    user_id bigint,
+    password text,
+    user_name text,
+    active integer
+);
+
+CREATE TABLE raku11.role
+(
+    role_id bigint,
+    role text 
+);
+
+
+CREATE TABLE raku11.user_role
+(
+    user_id bigint,
+    role_id bigint
+);
+    
+CREATE SEQUENCE raku11.USER_ID_SEQUENCE
+  start 1
+  increment 1;
+  
+
+CREATE SEQUENCE raku11.ROLE_ID_SEQUENCE
+  start 3
+  increment 1;  
+
+INSERT INTO raku11.role(
+	role_id, role)
+	VALUES (1, 'Admin');
+
+INSERT INTO raku11.role(
+	role_id, role)
+	VALUES (2, 'User');
