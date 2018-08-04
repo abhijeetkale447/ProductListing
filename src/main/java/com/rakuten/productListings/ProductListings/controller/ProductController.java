@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ public class ProductController {
 	@Autowired
 	CategoryService categoryService;
 
+	
 	@RequestMapping(value = "/product/{productName}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Response> getProductByName(@PathVariable("productName") String productName) {
@@ -56,6 +58,7 @@ public class ProductController {
 
 	}
 
+	@PreAuthorize("hasAnyRole('Admin')")
 	@PostMapping("/product")
 	@ResponseBody
 	public ResponseEntity<Response> addNewProduct(@RequestBody ProductRequest productPojo) {
@@ -69,6 +72,7 @@ public class ProductController {
 		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(), HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasAnyRole('Admin')")
 	@PutMapping("/product")
 	@ResponseBody
 	public ResponseEntity<Response> updateExistingProduct(@RequestBody ProductRequest productPojo) {
@@ -81,6 +85,7 @@ public class ProductController {
 		return new ResponseEntity<Response>(ResponseFactory.createValidResponse(), HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAnyRole('Admin')")
 	@DeleteMapping("/product/{productName}")
 	@ResponseBody
 	public ResponseEntity<Response> deleteExistingProduct(@PathVariable("productName") String productName) {
