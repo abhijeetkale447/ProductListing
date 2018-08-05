@@ -1,0 +1,153 @@
+User Registration:
+1) register Admin user testUser
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/registration \
+  --header 'Content-Type: application/json' \
+  --data '  {
+	"userName": "testUser",
+	"password": "password",
+	"role": "Admin"
+  }'
+	  
+==============================================================================================================	  
+Category Services:
+1) create category Men's Styling
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/category/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+	"name": "Men'\''s Styling",
+	"description": "Style Options for Men",
+	"parentCategory": ""
+  }'
+
+2) create categor Men's clothing
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/category/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Men'\''s clothing",
+    "description": "Style Options for Men",
+    "parentCategory": "Men'\''s Styling"
+  }'
+
+3) create category Men's Tshirts
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/category/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Men'\''s Tshirts",
+    "description": "Style Options for Men",
+    "parentCategory": "Men'\''s clothing"
+  }'
+  
+4) update Men's Tshirts desc
+curl --request PUT \
+  --url http://{HOST}:8080/product-mapping/category/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Men'\''s Tshirts",
+    "description": "Style Options for Men tshirt",
+    "parentCategory": "Men'\''s clothing"
+  }'
+  
+5) get Men's Tshirts category
+curl --request GET \
+  --url http://{HOST}:8080/product-mapping/category/Men%27s%20Tshirts \
+  --header 'Content-Type: application/json'
+
+6) get all child of Men's Styling
+curl --request GET \
+  --url http://{HOST}:8080/product-mapping/category/allChild/Men%27s%20Styling \
+  --header 'Content-Type: application/json'
+  
+7) delete unsuccessfull parent
+curl --request DELETE \
+  --url http://{HOST}:8080/product-mapping/category/Men%27s%20Styling \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Men'\''s Tshirts",
+    "description": "Style Options for Men tshirt",
+    "parentCategory": "Men'\''s clothing"
+  }'
+
+8) delete successfull case
+curl --request DELETE \
+  --url http://{HOST}:8080/product-mapping/category/Men%27s%20Tshirts \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Men'\''s Tshirts",
+    "description": "Style Options for Men tshirt",
+    "parentCategory": "Men'\''s clothing"
+  }'
+
+==============================================================================================================  
+  
+Product Services:  
+1) create Red Tshirt Product
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/product/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Red Tshirt",
+    "description": "Red tshirt for men",
+    "price": "1500",
+    "currency": "INR",
+    "category": "Men'\''s clothing"
+  }'
+ 
+2) create green Tshirt Product
+curl --request POST \
+  --url http://{HOST}:8080/product-mapping/product/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Green Tshirt",
+    "description": "Green tshirt for men",
+    "price": "8.23",
+    "currency": "USD",
+    "category": "Men'\''s clothing"
+  }'
+
+3) get green Tshirt Product
+curl --request GET \
+  --url http://{HOST}:8080/product-mapping/product/Green%20Tshirt \
+  --header 'Content-Type: application/json'
+
+4) get all product under Men's Styling
+curl --request GET \
+  --url http://{HOST}:8080/product-mapping/product/category/Men%27s%20Styling \
+  --header 'Content-Type: application/json'
+  
+5) update Green Tshirt product
+curl --request PUT \
+  --url http://{HOST}:8080/product-mapping/product/ \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Green Tshirt",
+    "description": "Green tshirt for men - updated",
+    "price": "2000",
+    "currency": "INR",
+    "category": "Men'\''s clothing"
+  }'
+  
+6) delete Green Tshirt product
+curl --request DELETE \
+  --url http://{HOST}:8080/product-mapping/product/Green%20Tshirt \
+  --header 'Authorization: Basic dGVzdFVzZXI6cGFzc3dvcmQ=' \
+  --header 'Content-Type: application/json' \
+  --data '  {
+    "name": "Green Tshirt",
+    "description": "Green tshirt for men - updated",
+    "price": "2000",
+    "currency": "INR",
+    "category": "Men'\''s clothing"
+  }'

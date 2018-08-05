@@ -1,0 +1,15 @@
+version: '2.1'
+services:
+  postgres:
+    build: 
+        context: ./postgresqlDocker
+    container_name: postgresdb_container
+    image: postgresdb_image
+    ports:
+      - 5433:5432
+  prodListing:
+    build: 
+        context: ./ProductListing
+    container_name: prodlisting_container
+    image: prodlisting_image
+    network_mode: "host"
