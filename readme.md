@@ -9,6 +9,8 @@ to run the application:
 	schema needed for product listing will ber ready in database: raku11 and under schema raku11.
 	your application should start running on port http://{host}:8080/product-mapping/
 
+please Read documentation file to know more about the module.
+
 Possibles error/hurdles:
 1) if you are using docker on windows using Docker quick start terminal you will need to use IP 192.168.99.100 to access services running on docker.
 2) fresh war can be created by maven clean build command.
